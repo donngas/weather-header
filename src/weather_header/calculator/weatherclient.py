@@ -4,6 +4,9 @@ from retry_requests import retry
 from geopy import Nominatim
 from timezonefinder import TimezoneFinder
 
+from weather_header.calculator.schemas import WeatherData, Time
+from weather_header.calculator.utils import get_local_time, convert_timestamps
+
 URL = "https://api.open-meteo.com/v1/forecast"
 
 
@@ -22,21 +25,49 @@ class WeatherClient:
         self.geo_client = Nominatim(user_agent="weather-header")
         self.timezone_finder = TimezoneFinder()
 
-    def get_weather(self, latitude: float, longitude: float) -> dict:
+    def get_weather(self, latitude: float, longitude: float) -> WeatherData:
         """
         Get weather code from Open-Meteo API.
         """
+        timezone = self.get_timezone(latitude, longitude)
+
         params = {
             "latitude": latitude,
             "longitude": longitude,
             "daily": ["sunrise", "sunset"],
             "current": "weather_code",
-            "timezone": self.get_timezone(latitude, longitude),
+            "timezone": timezone,
             "past_days": 1,
             "forcast_days": 1,
         }
         responses = self.weather_client.weather_api(URL, params=params)
-        return responses[0]
+        response = responses[0]
+
+        sunrises = []
+        sunsets = []
+
+        for sunrise in response.Daily().Variables(0).ValuesInt64AsNumpy().tolist():
+            sunrise_as_time = Time(
+                raw=sunrise, string=convert_timestamps([sunrise], timezone)[0]
+            )
+            sunrises.append(sunrise_as_time)
+
+        for sunset in response.Daily().Variables(1).ValuesInt64AsNumpy().tolist():
+            sunset_as_time = Time(
+                raw=sunset, string=convert_timestamps([sunset], timezone)[0]
+            )
+            sunsets.append(sunset_as_time)
+
+        ret: WeatherData = WeatherData(
+            weather_code=response.Current().Variables(0).Value(),
+            city=self.get_city_name(latitude, longitude),
+            timezone=timezone,
+            sunrises=sunrises,
+            sunsets=sunsets,
+            local_time=get_local_time(timezone),
+        )
+
+        return ret
 
     def get_city_name(self, latitude: float, longitude: float) -> str:
         """
