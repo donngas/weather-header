@@ -1,6 +1,7 @@
 .*
 !.gitignore
 !.python-version
+!.pre-commit-config.yaml
 
 # Python-generated files
 __pycache__/
