@@ -1,0 +1,28 @@
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @keyframes walk {
+        from { transform: translateX(0); }
+        to { transform: translateX(-{{ total_width }}px); }
+      }
+      .pixel-art {
+        animation: walk {{ duration }}s steps({{ frame_count }}) infinite;
+        image-rendering: pixelated;
+      }
+    </style>
+  </defs>
+
+  <rect width="800" height="200" fill="{{ bg_color }}" />
+
+  <svg width="{{ frame_width }}" height="200" x="400" y="0" viewBox="0 0 {{ frame_width }} 200">
+     <image class="pixel-art" 
+            href="data:image/png;base64,{{ base64_content }}" 
+            width="{{ total_width }}" height="200" />
+  </svg>
+  
+  {% if show_watermark %}
+  <text x="790" y="190" text-anchor="end" fill="white" font-size="10" opacity="0.5">
+    weather-header by {{ username }}
+  </text>
+  {% endif %}
+</svg>
