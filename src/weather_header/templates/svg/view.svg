@@ -14,15 +14,19 @@
 
   <rect width="800" height="200" fill="{{ bg_color }}" />
 
-  <svg width="{{ frame_width }}" height="200" x="400" y="0" viewBox="0 0 {{ frame_width }} 200">
+  <svg width="{{ animation_width }}" height="{{ animation_height }}" x="{{ animation_x }}" y="{{ animation_y }}" viewBox="0 0 {{ animation_width }} {{ animation_height }}">
      <image class="pixel-art" 
-            href="data:image/png;base64,{{ base64_content }}" 
-            width="{{ total_width }}" height="200" />
+            href="data:image/png;base64,{{ base64_sprite }}" 
+            width="{{ total_animation_width }}" height="{{ animation_height }}" />
   </svg>
+  
+  <image href="data:image/png;base64,{{ base64_frame }}" x="0" y="0" width="800" height="200" />
+  
+  <image href="data:image/png;base64,{{ base64_texture }}" x="0" y="0" width="800" height="200" />
   
   {% if show_watermark %}
   <text x="790" y="190" text-anchor="end" fill="white" font-size="10" opacity="0.5">
-    weather-header by {{ username }}
+    weather-header by donngas
   </text>
   {% endif %}
 </svg>
