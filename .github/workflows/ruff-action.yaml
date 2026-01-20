@@ -21,9 +21,8 @@ jobs:
         if: github.event_name == 'push'
         uses: astral-sh/ruff-action@v3
         with:
-          args: |
-            check
-            format
+          args: check
+          args: format
 
       - name: Commit formatting changes
         if: github.event_name == 'push'
@@ -36,6 +35,5 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: astral-sh/ruff-action@v3
         with:
-          args: |
-            check
-            format --check
+          args: check
+          args: format --check
