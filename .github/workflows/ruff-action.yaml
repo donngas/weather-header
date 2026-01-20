@@ -16,12 +16,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Push: auto-format only
-      - name: Ruff (format on push)
+      # ---------- PUSH ----------
+      - name: Ruff check (push, read-only)
         if: github.event_name == 'push'
         uses: astral-sh/ruff-action@v3
         with:
           args: check
+
+      - name: Ruff format (push, autofix)
+        if: github.event_name == 'push'
+        uses: astral-sh/ruff-action@v3
+        with:
           args: format
 
       - name: Commit formatting changes
@@ -30,10 +35,15 @@ jobs:
         with:
           commit_message: "chore: ruff format"
 
-      # PR: read-only checks
-      - name: Ruff (check only on PR)
+      # ---------- PULL REQUEST ----------
+      - name: Ruff check (PR)
         if: github.event_name == 'pull_request'
         uses: astral-sh/ruff-action@v3
         with:
           args: check
+
+      - name: Ruff format check (PR)
+        if: github.event_name == 'pull_request'
+        uses: astral-sh/ruff-action@v3
+        with:
           args: format --check
