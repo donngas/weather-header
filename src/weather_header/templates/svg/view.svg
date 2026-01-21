@@ -3,7 +3,7 @@
     <style>
       @keyframes walk {
         from { transform: translateX(0); }
-        to { transform: translateX(-{{ total_width }}px); }
+        to { transform: translateX(-{{ total_animation_width }}px); }
       }
       .pixel-art {
         animation: walk {{ duration }}s steps({{ frame_count }}) infinite;
