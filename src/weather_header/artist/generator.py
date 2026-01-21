@@ -28,7 +28,10 @@ class SVGGenerator:
         # find the right file
         names = {"sprite": weather_state, "frame": frame_name, "texture": texture_name}
 
-        file_path = self.assets_path / type / f"{names[type]}.png"
+        # map type to folder name (plural)
+        folders = {"sprite": "sprites", "frame": "frames", "texture": "textures"}
+
+        file_path = self.assets_path / folders[type] / f"{names[type]}.png"
 
         # read the binary data and encode it
         with open(file_path, "rb") as f:
@@ -71,6 +74,6 @@ class SVGGenerator:
             "animation_y": animation_y,
             "total_animation_width": total_width,
             "frame_count": frame_count,
-            "duration": 1,
+            "duration": 2,
             "show_watermark": user_pref.is_free_tier,
         }
