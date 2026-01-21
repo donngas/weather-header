@@ -52,10 +52,12 @@ class SVGGenerator:
         texture_str = self._get_base64("texture", texture_name=texture_name)
 
         # Animation constants
-        frame_width = 200
+        frame_width = 300
         frame_height = 200
-        frame_count = 6  # Assumed default
+        frame_count = 12  # Assumed default
         total_width = frame_width * frame_count
+        animation_x = 500
+        animation_y = 0
 
         return {
             "base64_sprite": sprite_str,
@@ -65,8 +67,8 @@ class SVGGenerator:
             # Animation Geometry
             "animation_width": frame_width,
             "animation_height": frame_height,
-            "animation_x": (800 - frame_width) // 2,  # Center horizontally
-            "animation_y": (200 - frame_height) // 2,  # Center vertically
+            "animation_x": animation_x,
+            "animation_y": animation_y,
             "total_animation_width": total_width,
             "frame_count": frame_count,
             "duration": 1,
