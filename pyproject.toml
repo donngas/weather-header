@@ -16,6 +16,8 @@ dependencies = [
     "pandas>=2.3.3",
     "requests-cache>=1.2.1",
     "retry-requests>=2.0.0",
+    "sqladmin>=0.22.0",
+    "sqlalchemy>=2.0.45",
     "timezonefinder>=8.2.1",
     "uvicorn>=0.40.0",
 ]
