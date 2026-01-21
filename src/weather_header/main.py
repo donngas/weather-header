@@ -2,11 +2,21 @@ import os
 from pathlib import Path
 from types import SimpleNamespace
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Response
 
 from .artist.generator import SVGGenerator
+from .db.session import init_db
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await init_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
@@ -17,6 +27,9 @@ def read_root():
 
 
 if DEBUG:
+    from .admin import setup_admin
+
+    setup_admin(app)
 
     @app.get("/debug/view")
     def debug_view():
