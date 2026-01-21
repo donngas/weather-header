@@ -26,4 +26,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENTRYPOINT []
 
 # Run the FastAPI application by default
-CMD ["uvicorn", "src.weather_header.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "uvicorn", "src.weather_header.main:app", "--host", "0.0.0.0", "--port", "8000"]

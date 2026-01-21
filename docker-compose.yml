@@ -10,7 +10,7 @@ services:
     volumes:
       # Mount source code for hot reloading in development
       - ./src:/app/src
-    command: uvicorn src.weather_header.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uv run uvicorn src.weather_header.main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - db
 
